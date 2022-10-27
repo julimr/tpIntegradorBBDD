@@ -4,6 +4,14 @@
 -- ------------------------------------------------------
 -- Server version	8.0.30
 
+-- creamos la base de datos
+create database tpintegrador;
+
+-- usamos la base de datos
+use tpintegrador;
+
+
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -181,7 +189,6 @@ CREATE TABLE `replica` (
   `id_replica` int NOT NULL AUTO_INCREMENT,
   `detalle` varchar(45) DEFAULT NULL,
   `apodo_comentarista` varchar(45) DEFAULT NULL,
-  `Replicacol` varchar(45) DEFAULT NULL,
   `id_comentario` int NOT NULL,
   PRIMARY KEY (`id_replica`),
   KEY `fk_Replica_Comentario_idx` (`id_comentario`),
@@ -371,3 +378,120 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2022-10-27 15:29:08
+
+INSERT INTO categoria 
+VALUES (1,'musica'),
+(2,'deporte'),
+(3,'investigacion'),
+(4,'economia'),
+(5, 'salud');  
+
+INSERT INTO usuario 
+VALUES (1,'nahuel','carron','1988-02-17','nahucapo88'),
+(2,'julieta','romero','1995-03-15','nahucapoporsiempre'),
+(3,'bruno','lima','1995-04-13','nahuelmejor'),
+(4,'hernan','pavon','1995-05-14','nahuGG'),
+(5,'denise','deutsch','1995-06-12','diosNahuSupremo'),
+(6,'tomas','sesaro','1995-07-01','nahuSuperSayayin');
+
+INSERT INTO contenido 
+VALUES (1,'animales salvajes','2022-02-17','.avi','video'),
+(2,'gatos velgas','2022-05-10','.mp3','audio'),
+(3,'perritos avandonados','2022-10-02','.avi','video'),
+(4,'hogar de animales peligrosos','2022-06-05','.avi','video'),
+(5,'como enseniarle cosas a tus mascotas','2022-02-17','.pdf','documento'); 
+
+INSERT INTO video 
+VALUES (1),
+(2),
+(3),
+(4),
+(5);
+
+INSERT INTO documento 
+VALUES (1),
+(2),
+(3),
+(4),
+(5);
+
+INSERT INTO musica 
+VALUES (1),
+(2),
+(3),
+(4),
+(5);  
+ 
+ 
+ INSERT INTO comentario 
+VALUES (1,'tremendooo','me encanto todo soy fan','juana talarga',1),
+(2,'raroo','muy extraño todo','elver matias gonte',2),
+(3,'nunca mas','no vuelvo a ver esto','marcia ana alegre',3),
+(4,'saddd','espero que adopten mas','felicitas me ',3),
+(5,'quieroooo','yo tengo un tigre de vengala','armando castillos',4); 
+
+
+ INSERT INTO descarga 
+VALUES (1,23,1,2,null),
+(2,33,1,null,2),
+(3,21,2,null,1),
+(4,40,3,4,null),
+(5,32,1,null,5); 
+
+
+
+
+ INSERT INTO replica 
+VALUES (1,'me encanto','juana talarga',1),
+(2,'muy raro todo','elver matias gonte',2),
+(3,'jajajaja','marcia ana alegre',3),
+(4,'ya tu sabes','felicitas me',3),
+(5,'TrEmEnDooo','armando castillos',4); 
+
+
+INSERT INTO replica_has_replica 
+VALUES (1,1),
+(2,2),
+(3,3),
+(4,4),
+(5,5); 
+
+ INSERT INTO reproduccion 
+VALUES (1,'2022-02-17','22:30:00','22:32:00','mac',1),
+(2,'2022-02-17','12:33:00','12:40:21','linux',2),
+(3,'2022-02-17','04:00:00','04:50:12','windous',5),
+(4,'2022-02-17','16:12:42','17:01:23','windous',1),
+(5,'2022-02-17','21:30:56','22:12:01','windous',1);
+
+ INSERT INTO respuesta_encuesta 
+VALUES (1,2,9,'lindos colores','letra chica','muy rapida ','no muestra info ',1),
+(2,2,6,'linda letra','colores feos','muestra bien la info','muy lenta',2),
+(3,2,7,'buen contenido','se desaparece un boton','re veloz ','no avisa cuando termina ',3),
+(4,2,10,'me gustan las animaciones','dificil volver al home','buena velocidad','no tengo nada negativo ',4),
+(5,2,8,'muy bien pensada','imputs muy chicos','se descargo al toke ','no avisa cuando arranca',5);
+
+
+INSERT INTO seclasifica 
+VALUES (1,1),
+(2,2),
+(3,3),
+(4,4),
+(5,5); 
+
+select * from categoria; -- cargada
+select * from usuario; -- cargada
+select * from contenido;  -- cargada
+select * from video; -- cargada
+select * from documento; -- cargada
+select * from musica; -- cargada
+select * from comentario; -- cargada
+select * from descarga; -- cargada
+select * from replica; -- cargada
+select * from replica_has_replica; -- cargada
+select * from reproduccion; -- cargada
+select * from respuesta_encuesta; -- cargada
+select * from seclasifica; -- cargada
+
+
+
+
