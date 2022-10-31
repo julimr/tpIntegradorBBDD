@@ -395,58 +395,82 @@ VALUES (1,'nahuel','carron','1988-02-17','nahucapo88'),
 (6,'tomas','sesaro','1995-07-01','nahuSuperSayayin');
 
 INSERT INTO contenido 
-VALUES (1,'animales salvajes','2022-02-17','.avi','video'),
-(2,'gatos velgas','2022-05-10','.mp3','audio'),
-(3,'perritos avandonados','2022-10-02','.avi','video'),
-(4,'hogar de animales peligrosos','2022-06-05','.avi','video'),
-(5,'como enseniarle cosas a tus mascotas','2022-02-17','.pdf','documento'); 
+VALUES (1,'Animales Salvajes','2022-02-17','.avi','video'),
+(2,'Feliz Cumpleaños','2022-05-10','.mp3','musica'),
+(3,'Curso MySQL','2022-10-02','.mp4','video'),
+(4,'Ejercicio 1 MySQL','2022-06-05','.docx','documento'),
+(5,'Yellow','2022-02-17','.mp3','musica'),
+(6,'5 Seconds of Summer','2022-09-29','.mp3','musica'),
+(7,'Manual de instrucciones','2020-07-01','.pdf','documento'),
+(8,'Partido Argentina vs Inglaterra','1986-06-22','.avi','video'),
+(9,'IT','2019-03-27','.avi','video'),
+(10,'Sweet Child O´ Mine','2010-08-15','.mp3','musica'),
+(11,'Apunte Modelizacion','2022-08-28','.pdf','documento'),
+(12,'Listado goles Messi','2022-01-01','.pdf','documento'),
+(13,'Recital Coldplay','2022-10-25','.avi','video'),
+(14,'Entrevista Messi','2022-08-03','.mp4','video'),
+(15,'Sky Full Of Stars','2022-10-28','.mp3','musica'),
+(16,'Viaje en Brasil','2014-04-23','.mp4','video'),
+(17,'Ejercicios Matematica','2022-06-09','.docx','documento'),
+(18,'Mirenla','2012-10-01','.mp3','musica'),
+(19,'Insisto','2008-02-01','.mp3','musica'),
+(20,'Guia preguntas','2022-05-11','.docx','documento'),
+(21,'Manual','2021-12-09','.docx','documento'); 
 
 INSERT INTO video 
-VALUES (1),
-(2),
-(3),
-(4),
-(5);
+VALUES (1),(3),(8),(9),(13),(14),(16)
+;
 
 INSERT INTO documento 
-VALUES (1),
-(2),
-(3),
-(4),
-(5);
+VALUES (4),(7),(11),(12),(17),(20),(21);
 
 INSERT INTO musica 
-VALUES (1),
-(2),
-(3),
-(4),
-(5);  
+VALUES (2),(5),(6),(10),(15),(18),(19)
+;  
  
  
  INSERT INTO comentario 
-VALUES (1,'tremendooo','me encanto todo soy fan','juana talarga',1),
-(2,'raroo','muy extraño todo','elver matias gonte',2),
-(3,'nunca mas','no vuelvo a ver esto','marcia ana alegre',3),
-(4,'saddd','espero que adopten mas','felicitas me ',3),
-(5,'quieroooo','yo tengo un tigre de vengala','armando castillos',4); 
+VALUES (1,'Aguante Messi','soy fan numero 1','juana talarga',14),
+(2,'raroo','muy extraño todo, no se entiende nada','elver matias gonte',21),
+(3,'Temazo','Que buena cancion, me encanto!!!!','marcia ana alegre',15),
+(4,'Quiero ir','necesito mis vacaciones ahiiii','felicitas me ',16),
+(5,'Vieja','muy vieja la cancion, no me gusto','armando castillos',18), 
+(6,'Buen video, pero viejo','me encanto el video pero es viejo','Osvaldo Lopez',16), 
+(7,'Messi Love','aguante messi locoooo','Nachito01',14), 
+(8,'Lindo','lindos paisajesss <3','AnitaLaura',16),
+(9,'F','no me salio ningun ejercicio :(','Pedro__',17),
+(10,'Me sirvio','buen manual, me ayudo mucho','Esther123',21),
+(11,'Tradicional','es la cancion tradicional del feliz cumple','__juan__',2),
+(12,'Maso','alguno pudo resolver el 3.1?','pepeeee',4),
+(13,'Buenisimo','me encanto','Ana2222',6),
+(14,'Peliculon','alta peli para ver en halloween','Lore678',9),
+(15,'Buena guía','muy buena guia','fran_q',20),
+(16,'TEMON','vieja, pero no puedo parar de escucharla','Andrea',18),
+(17,'partidazoooo','tremendo partidoo!!! inolvidable','Pepe123456',8),
+(18,'dificil','son re dificiles los ejercicios','anaLaura',4),
+(19,'temazo','aguante Cirooo','Andrea',18),
+(20,'perfecto','feliz cumple tradicional, bueno!!','Andrea',2),
+(21,'messi messi','vamos messiiii','Nachito01',14), 
+(22,'no me gusto','me dan miedo los payasos!!!!','Lolooo',9);
 
 
- INSERT INTO descarga 
-VALUES (1,23,1,2,null),
-(2,33,1,null,2),
-(3,21,2,null,1),
-(4,40,3,4,null),
-(5,32,1,null,5); 
+
+INSERT INTO descarga 
+VALUES (1,23,1,17,null),
+(2,33,1,null,15),
+(3,21,2,null,5),
+(4,40,3,11,null),
+(5,32,1,null,2); 
 
 
 
 
  INSERT INTO replica 
-VALUES (1,'me encanto','juana talarga',1),
-(2,'muy raro todo','elver matias gonte',2),
-(3,'jajajaja','marcia ana alegre',3),
-(4,'ya tu sabes','felicitas me',3),
-(5,'TrEmEnDooo','armando castillos',4); 
+VALUES (1,'cual no te salio???','juana talarga',9),
+(2,'maaaal como olvidarlo','elver matias gonte',17),
+(3,'jajajaja','marcia ana alegre',14),
+(4,'ya tu sabes','felicitas me',4),
+(5,'TrEmEnDooo','armando castillos',3); 
 
 
 INSERT INTO replica_has_replica 
@@ -457,11 +481,12 @@ VALUES (1,1),
 (5,5); 
 
  INSERT INTO reproduccion 
-VALUES (1,'2022-02-17','22:30:00','22:32:00','mac',1),
-(2,'2022-02-17','12:33:00','12:40:21','linux',2),
-(3,'2022-02-17','04:00:00','04:50:12','windous',5),
-(4,'2022-02-17','16:12:42','17:01:23','windous',1),
-(5,'2022-02-17','21:30:56','22:12:01','windous',1);
+VALUES (1,'2022-02-17','22:30:00','22:32:00','mac',16),
+(2,'2022-02-17','12:33:00','12:40:21','linux',9),
+(3,'2022-02-17','04:00:00','04:50:12','windows',9),
+(4,'2022-03-19','16:12:42','17:01:23','windows',3),
+(5,'2022-04-01','21:30:56','22:12:01','windows',1),
+(6,'2022-05-03','12:33:00','12:40:21','linux',14);
 
  INSERT INTO respuesta_encuesta 
 VALUES (1,2,9,'lindos colores','letra chica','muy rapida ','no muestra info ',1),
