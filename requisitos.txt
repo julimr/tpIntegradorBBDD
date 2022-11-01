@@ -1,0 +1,9 @@
+# Requerimientos basicos para ejecutar el backend de BDD
+#
+# Como usarse:
+#   $ pip install -r requisitos.txt
+#
+
+Flask
+PyMySQL
+flask-cors
