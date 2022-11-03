@@ -78,7 +78,7 @@ class Servicio:
 
         return result
 
-    def obtener_contenidos(self) -> list:
+    def obtener_mas_comentados(self) -> list:
         """
         Retorna lista de contenidos en formato:
         - [titulo, extension, cantidad de comentarios]
@@ -88,11 +88,7 @@ class Servicio:
         consulta = None
         with self.conexion_db.cursor() as cursor:
             cursor.execute(
-                'SELECT contenido.titulo, contenido.extension, COUNT(*) as cantComentarios\n'
-                'FROM comentario\n'
-                'LEFT JOIN contenido ON comentario.id_contenido = comentario.id_contenido\n'
-                'GROUP BY contenido.id_contenido\n'
-                'ORDER BY cantComentarios DESC;'
+                "select tbl_rank.titulo 'Titulo', tbl_rank.tipo_contenido 'Tipo de contenido', tbl_rank.cant_comentarios 'Cant comentarios'from (select contenido.id_contenido, contenido.titulo , contenido.tipo_contenido , count(comentario.id_comentario) 'cant_comentarios', rank () over ( partition by contenido.tipo_contenido order by count(comentario.id_comentario) desc) 'rango' from comentario join contenido on contenido.id_contenido = comentario.id_contenido  group by contenido.id_contenido ) as tbl_rank where tbl_rank.rango < 5;"
             )
             # NOTE: fetchall devuelve tuplas, debemos convertirlos a listas
             consulta = cursor.fetchall()
@@ -100,8 +96,35 @@ class Servicio:
 
         # Convertimos las tupas en json
         result = []
-        for titulo, extension, cant_comentarios in consulta:
+        # for id_contenido, titulo, tipo_contenido, cant_comentarios in consulta:
+        for titulo, tipo_contenido, cant_comentarios in consulta:
             result.append({
+                    # "id": id_contenido,
+                    "titulo": titulo,
+                    "extension": tipo_contenido,
+                    "cantComentarios": cant_comentarios
+                })
+        result = json.loads(json.dumps(result))
+
+        return result
+
+    def obtener_contenidos_tipo(self, tipo) -> list:
+        """
+        Retorna lista de los contenidos de musica mas comentados
+        """
+        tipo_contenido = tipo
+        consulta = "SELECT c.id_contenido, c.titulo , extension, COUNT(com.id_contenido) as 'Cantidad de comentarios' FROM contenido c LEFT JOIN comentario com ON c.id_contenido = com.id_contenido WHERE c.tipo_contenido = %s GROUP BY com.id_contenido ORDER BY COUNT(com.id_contenido) DESC;"
+        with self.conexion_db.cursor() as cursor:
+            cursor.execute(consulta, (tipo_contenido))
+            # NOTE: fetchall devuelve tuplas, debemos convertirlos a listas
+            consulta = cursor.fetchall()
+        self.conexion_db.commit()
+
+        # Convertimos las tupas en json
+        result = []
+        for id_contenido, titulo, extension, cant_comentarios in consulta:
+            result.append({
+                    "id" : id_contenido,
                     "titulo": titulo,
                     "extension": extension,
                     "cantComentarios": cant_comentarios

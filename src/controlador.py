@@ -61,11 +61,26 @@ class Controlador:
             """Endpoint de test"""
             return self.servicio.test_mysql()
 
-        @app.route('/contenidos')
+        @app.route('/mas_comentados')
         @cross_origin()
         def contenidos():
             """Endpoint de test"""
-            return self.servicio.obtener_contenidos()
+            return self.servicio.obtener_mas_comentados()
+
+        @app.route('/contenidos_musica')
+        @cross_origin()
+        def obtener_contenidos_tipo_musica():
+            return self.servicio.obtener_contenidos_tipo("musica")
+        
+        @app.route('/contenidos_video')
+        @cross_origin()
+        def obtener_contenidos_tipo_video():
+            return self.servicio.obtener_contenidos_tipo("video")
+        
+        @app.route('/contenidos_documento')
+        @cross_origin()
+        def obtener_contenidos_tipo_documento():
+            return self.servicio.obtener_contenidos_tipo("documento")
 
         app.run()
 
