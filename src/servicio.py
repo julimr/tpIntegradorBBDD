@@ -88,7 +88,7 @@ class Servicio:
         consulta = None
         with self.conexion_db.cursor() as cursor:
             cursor.execute(
-                "select tbl_rank.titulo 'Titulo', tbl_rank.tipo_contenido 'Tipo de contenido', tbl_rank.cant_comentarios 'Cant comentarios'from (select contenido.id_contenido, contenido.titulo , contenido.tipo_contenido , count(comentario.id_comentario) 'cant_comentarios', rank () over ( partition by contenido.tipo_contenido order by count(comentario.id_comentario) desc) 'rango' from comentario join contenido on contenido.id_contenido = comentario.id_contenido  group by contenido.id_contenido ) as tbl_rank where tbl_rank.rango < 5;"
+                "SELECT tipo_contenido as 'Tipo de contenido', extension, COUNT(com.id_contenido) as 'Cantidad de comentarios' FROM contenido c LEFT JOIN comentario com ON c.id_contenido = com.id_contenido GROUP BY c.extension ORDER BY tipo_contenido ASC;"
             )
             # NOTE: fetchall devuelve tuplas, debemos convertirlos a listas
             consulta = cursor.fetchall()
@@ -96,11 +96,9 @@ class Servicio:
 
         # Convertimos las tupas en json
         result = []
-        # for id_contenido, titulo, tipo_contenido, cant_comentarios in consulta:
         for titulo, tipo_contenido, cant_comentarios in consulta:
             result.append({
-                    # "id": id_contenido,
-                    "titulo": titulo,
+                    "tipo_contenido": titulo,
                     "extension": tipo_contenido,
                     "cantComentarios": cant_comentarios
                 })
