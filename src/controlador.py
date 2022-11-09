@@ -43,6 +43,20 @@ class Controlador:
         cors = CORS(app) # pylint: disable=unused-variable
         app.config['CORS_HEADERS'] = 'Content-Type'
 
+        @app.route("/comentar", methods=["POST"])
+        @cross_origin()
+        def comentar_contenido():
+            datos = request.get_json()
+            titulo = datos["titulo"]
+            descripcion = datos["descripcion"]
+            apodoComentarista = datos["apodoComentarista"]
+            id_contenido = datos["id_contenido"]
+            try: 
+                self.servicio.comentar(titulo, descripcion,apodoComentarista,id_contenido)
+                return ['todo ok']
+            except:
+                return ['error']
+
         @app.route('/test/controlador')
         @cross_origin()
         def test_controlador():
@@ -87,15 +101,6 @@ class Controlador:
         def obtener_contenido_por_id_contenido(id_contenido):
             return self.servicio.obtener_contenido_por_id(id_contenido)
 
-        @app.route("/comentar", methods=["POST"])
-        @cross_origin()
-        def comentar_contenido():
-            datos = request.get_json()
-            titulo = datos["titulo"]
-            descripcion = datos["descripcion"]
-            apodoComentarista = datos["apodoComentarista"]
-            id_contenido = datos["id_contenido"]
-            return self.servicio.comentar(titulo, descripcion,apodoComentarista,id_contenido)
 
         app.run()
 
