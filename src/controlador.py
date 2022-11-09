@@ -89,13 +89,13 @@ class Controlador:
 
         @app.route("/comentar", methods=["POST"])
         @cross_origin()
-        def obtener_contenido():
-            if request.method == "POST":
-                titulo = request.args.get("titulo")
-                descripcion = request.args.get("descripcion")
-                apodoComentarista = request.args.get("apodoComentarista")
-                id_contenido = request.args.get("id_contenido")
-                return self.servicio.comentar(titulo, descripcion,apodoComentarista,id_contenido)
+        def comentar_contenido():
+            datos = request.get_json()
+            titulo = datos["titulo"]
+            descripcion = datos["descripcion"]
+            apodoComentarista = datos["apodoComentarista"]
+            id_contenido = datos["id_contenido"]
+            return self.servicio.comentar(titulo, descripcion,apodoComentarista,id_contenido)
 
         app.run()
 

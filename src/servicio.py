@@ -154,9 +154,6 @@ class Servicio:
         return result
     
     def comentar(self, titulo, descripcion, apodo_comentarista, id_contenido) -> list:
-        """
-        Retorna el contenido segun el id_contenido
-        """
         consulta = "INSERT INTO comentario(titulo, descripcion, apodo_comentarista, id_contenido) VALUES (%s,%s,%s,%s);"
         with self.conexion_db.cursor() as cursor:
             cursor.execute(consulta, (titulo, descripcion,apodo_comentarista,id_contenido))
