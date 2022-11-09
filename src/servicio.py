@@ -130,6 +130,42 @@ class Servicio:
         result = json.loads(json.dumps(result))
 
         return result
+        
+    def obtener_contenido_por_id(self, id_contenido) -> list:
+        """
+        Retorna el contenido segun el id_contenido
+        """
+        id = id_contenido
+        consulta = "SELECT id_contenido, titulo, tipo_contenido FROM contenido WHERE id_contenido = %s;"
+        with self.conexion_db.cursor() as cursor:
+            cursor.execute(consulta, (id))
+            consulta = cursor.fetchall()
+        self.conexion_db.commit()
+        # Convertimos las tupas en json
+        result = []
+        for id_contenido, titulo, tipo_contenido in consulta:
+            result.append({
+                    "id_contenido" : id_contenido,
+                    "titulo": titulo,
+                    "tipo_contenido": tipo_contenido
+                })
+        result = json.loads(json.dumps(result))
+
+        return result
+    
+    def comentar(self, titulo, descripcion, apodo_comentarista, id_contenido) -> list:
+        """
+        Retorna el contenido segun el id_contenido
+        """
+        consulta = "INSERT INTO comentario(titulo, descripcion, apodo_comentarista, id_contenido) VALUES (%s,%s,%s,%s);"
+        with self.conexion_db.cursor() as cursor:
+            cursor.execute(consulta, (titulo, descripcion,apodo_comentarista,id_contenido))
+            consulta = cursor.fetchall()
+        self.conexion_db.commit()
+        # Convertimos las tupas en json
+        result = []
+
+        return result
 
 
 if __name__ == '__main__':

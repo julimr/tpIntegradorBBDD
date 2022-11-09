@@ -21,7 +21,7 @@ que llegan del frontend
 ## NOTE: esto esta vacio por ahora
 
 # Paquetes instalados
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS, cross_origin
 
 # Paquetes locales
@@ -81,6 +81,21 @@ class Controlador:
         @cross_origin()
         def obtener_contenidos_tipo_documento():
             return self.servicio.obtener_contenidos_tipo("documento")
+        
+        @app.route('/contenido/<int:id_contenido>')
+        @cross_origin()
+        def obtener_contenido_por_id_contenido(id_contenido):
+            return self.servicio.obtener_contenido_por_id(id_contenido)
+
+        @app.route("/comentar", methods=["POST"])
+        @cross_origin()
+        def obtener_contenido():
+            if request.method == "POST":
+                titulo = request.args.get("titulo")
+                descripcion = request.args.get("descripcion")
+                apodoComentarista = request.args.get("apodoComentarista")
+                id_contenido = request.args.get("id_contenido")
+                return self.servicio.comentar(titulo, descripcion,apodoComentarista,id_contenido)
 
         app.run()
 
