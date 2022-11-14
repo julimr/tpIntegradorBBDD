@@ -100,6 +100,16 @@ class Controlador:
         @cross_origin()
         def obtener_contenido_por_id_contenido(id_contenido):
             return self.servicio.obtener_contenido_por_id(id_contenido)
+        
+        @app.route('/comentarios/<int:id_contenido>')
+        @cross_origin()
+        def obtener_comentarios_por_id(id_contenido):
+            return self.servicio.obtener_comentarios_por_id_contenido(id_contenido)
+        
+        @app.route('/eliminarComentario/<int:id_comentario>' ,methods=["DELETE"])
+        @cross_origin()
+        def eliminar_comentario_id(id_comentario):
+           return self.servicio.eliminar_comentario(id_comentario)
 
 
         app.run()

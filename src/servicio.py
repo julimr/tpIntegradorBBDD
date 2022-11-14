@@ -75,7 +75,7 @@ class Servicio:
         result = f'Bases de datos encontradas ({len(bases_de_datos)}):<br>'
         for bdd in bases_de_datos:
             result += f'- {bdd}<br>'
-
+        
         return result
 
     def obtener_mas_comentados(self) -> list:
@@ -92,6 +92,7 @@ class Servicio:
             )
             # NOTE: fetchall devuelve tuplas, debemos convertirlos a listas
             consulta = cursor.fetchall()
+            cursor.close()
         self.conexion_db.commit()
 
         # Convertimos las tupas en json
@@ -103,7 +104,6 @@ class Servicio:
                     "cantComentarios": cant_comentarios
                 })
         result = json.loads(json.dumps(result))
-
         return result
 
     def obtener_contenidos_tipo(self, tipo) -> list:
@@ -116,6 +116,7 @@ class Servicio:
             cursor.execute(consulta, (tipo_contenido))
             # NOTE: fetchall devuelve tuplas, debemos convertirlos a listas
             consulta = cursor.fetchall()
+            cursor.close()
         self.conexion_db.commit()
 
         # Convertimos las tupas en json
@@ -128,7 +129,6 @@ class Servicio:
                     "cantComentarios": cant_comentarios
                 })
         result = json.loads(json.dumps(result))
-
         return result
         
     def obtener_contenido_por_id(self, id_contenido) -> list:
@@ -140,6 +140,7 @@ class Servicio:
         with self.conexion_db.cursor() as cursor:
             cursor.execute(consulta, (id))
             consulta = cursor.fetchall()
+            cursor.close()
         self.conexion_db.commit()
         # Convertimos las tupas en json
         result = []
@@ -150,7 +151,6 @@ class Servicio:
                     "tipo_contenido": tipo_contenido
                 })
         result = json.loads(json.dumps(result))
-
         return result
     
     def comentar(self, titulo, descripcion, apodo_comentarista, id_contenido) -> list:
@@ -158,12 +158,53 @@ class Servicio:
         with self.conexion_db.cursor() as cursor:
             cursor.execute(consulta, (titulo, descripcion,apodo_comentarista,id_contenido))
             consulta = cursor.fetchall()
+            cursor.close()
         self.conexion_db.commit()
         # Convertimos las tupas en json
         result = []
+        
+        return result
+
+    def obtener_comentarios_por_id_contenido(self, id_contenido) -> list:
+        """
+        Retorna el contenido segun el id_contenido
+        """
+        id = id_contenido
+        consulta = "SELECT id_contenido, titulo, descripcion, apodo_comentarista, id_comentario FROM comentario WHERE id_contenido = %s;"
+        with self.conexion_db.cursor() as cursor:
+            cursor.execute(consulta, (id))
+            consulta = cursor.fetchall()
+            cursor.close()
+        self.conexion_db.commit()
+        # Convertimos las tupas en json
+        result = []
+        for id_contenido, titulo, descripcion, apodo_comentarista, id_comentario in consulta:
+            result.append({
+                    "id_contenido" : id_contenido,
+                    "titulo": titulo,
+                    "descripcion": descripcion,
+                    "apodoComentarista": apodo_comentarista,
+                    "id_comentario": id_comentario
+                })
+        result = json.loads(json.dumps(result))
 
         return result
 
+    def eliminar_comentario(self, id_comentario) -> list:
+        """ Elimina un comentario """
+        id = id_comentario
+        consulta = "DELETE FROM comentario WHERE id_comentario = %s;" 
+        try:
+            with self.conexion_db.cursor() as cursor:
+                cursor.execute(consulta, (id))
+                cursor.close()
+            self.conexion_db.commit()
+
+            return json.loads(json.dumps({'mensaje': "comentario eliminado"}))
+        except Exception as ex:
+            return json.loads(json.dumps({'mensaje': f"{ex}"}))
+
+        
 
 if __name__ == '__main__':
     print('Este modulo NO se debe ejecutar desde la consola')
