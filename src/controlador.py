@@ -43,19 +43,6 @@ class Controlador:
         cors = CORS(app) # pylint: disable=unused-variable
         app.config['CORS_HEADERS'] = 'Content-Type'
 
-        @app.route("/comentar", methods=["POST"])
-        @cross_origin()
-        def comentar_contenido():
-            datos = request.get_json()
-            titulo = datos["titulo"]
-            descripcion = datos["descripcion"]
-            apodoComentarista = datos["apodoComentarista"]
-            id_contenido = datos["id_contenido"]
-            try: 
-                self.servicio.comentar(titulo, descripcion,apodoComentarista,id_contenido)
-                return ['todo ok']
-            except:
-                return ['error']
 
         @app.route('/test/controlador')
         @cross_origin()
@@ -111,6 +98,32 @@ class Controlador:
         def eliminar_comentario_id(id_comentario):
            return self.servicio.eliminar_comentario(id_comentario)
 
+        @app.route("/comentar", methods=["POST"])
+        @cross_origin()
+        def comentar_contenido():
+            datos = request.get_json()
+            titulo = datos["titulo"]
+            descripcion = datos["descripcion"]
+            apodoComentarista = datos["apodoComentarista"]
+            id_contenido = datos["id_contenido"]
+            return self.servicio.comentar(titulo, descripcion,apodoComentarista,id_contenido)
+        
+        @app.route("/editarComentario", methods=["PUT"])
+        @cross_origin()
+        def editar_comentario():
+            datos = request.get_json()
+            titulo = datos["titulo"]
+            descripcion = datos["descripcion"]
+            apodoComentarista = datos["apodoComentarista"]
+            id_contenido = datos["id_contenido"]
+            id_comentario = datos["id_comentario"]
+
+            return self.servicio.modificar_comentario(id_comentario,titulo, descripcion,apodoComentarista,id_contenido)
+
+        @app.route('/comentario/<int:id_comentario>')
+        @cross_origin()
+        def obtener_comentario_por_id(id_comentario):
+            return self.servicio.buscar_comentario(id_comentario)
 
         app.run()
 

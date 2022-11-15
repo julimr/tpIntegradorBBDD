@@ -208,6 +208,44 @@ class Servicio:
             return json.loads(json.dumps({'mensaje': "comentario eliminado"}))
         except Exception as ex:
             return json.loads(json.dumps({'mensaje': f"{ex}"}))
+    
+    def modificar_comentario(self, id_comentario, titulo, descripcion, apodo_comentarista, id_contenido) -> list:
+        ''' 
+            Modifica un comentario a un determinado.
+        '''
+        consulta = "UPDATE comentario SET titulo = %s, descripcion = %s, apodo_comentarista = %s , id_contenido = %s WHERE id_comentario = %s;" 
+        try:
+            with self.conexion_db.cursor() as cursor:
+                cursor.execute(consulta, (titulo, descripcion,apodo_comentarista,id_contenido, id_comentario))
+                consulta = cursor.fetchall()
+                cursor.close()
+            self.conexion_db.commit()
+            return json.loads(json.dumps({'mensaje': "Comentario modificado."}))
+        except Exception as ex:
+            return json.loads(json.dumps({'mensaje': f"{ex}"}))
+    
+    def buscar_comentario(self, id_comentario) -> list:
+        ''' 
+            Busca un comentario a un determinado.
+        '''
+        consulta = "SELECT * FROM comentario WHERE id_comentario = %s;" 
+        with self.conexion_db.cursor() as cursor:
+            cursor.execute(consulta, (id_comentario))
+            consulta = cursor.fetchall()
+            cursor.close()
+        self.conexion_db.commit()
+        result = []
+        for id_comentario, titulo, descripcion, apodo_comentarista, id_contenido in consulta:
+            result.append({
+                    "id_contenido" : id_contenido,
+                    "titulo": titulo,
+                    "descripcion": descripcion,
+                    "apodoComentarista": apodo_comentarista,
+                    "id_comentario": id_comentario
+                })
+        result = json.loads(json.dumps(result))
+
+        return result
 
         
 
