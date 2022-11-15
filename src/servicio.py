@@ -81,7 +81,7 @@ class Servicio:
     def obtener_mas_comentados(self) -> list:
         """
         Retorna lista de contenidos en formato:
-        - [titulo, extension, cantidad de comentarios]
+        - [tipo_contenido, extension, cantidad de comentarios]
         """
         ## NOTE: esto se podria separar en otro modulo 'database' o algo asi
         # Hacemos consulta a la base de datos
@@ -108,10 +108,11 @@ class Servicio:
 
     def obtener_contenidos_tipo(self, tipo) -> list:
         """
-        Retorna lista de los contenidos de musica mas comentados
+        Retorna lista de los contenidos de un tipo de contenido con su respectiva cantidad de comentarios
+        ej: documento .docx 7, musica .mp3 2, etc...
         """
         tipo_contenido = tipo
-        consulta = "SELECT c.id_contenido, c.titulo , extension, COUNT(com.id_contenido) as 'Cantidad de comentarios' FROM contenido c LEFT JOIN comentario com ON c.id_contenido = com.id_contenido WHERE c.tipo_contenido = %s GROUP BY com.id_contenido ORDER BY COUNT(com.id_contenido) DESC;"
+        consulta = "SELECT c.id_contenido, c.titulo , extension, COUNT(com.id_contenido) as 'Cantidad de comentarios' FROM contenido c LEFT JOIN comentario com ON c.id_contenido = com.id_contenido WHERE c.tipo_contenido = %s GROUP BY c.id_contenido ORDER BY COUNT(com.id_contenido) DESC;"
         with self.conexion_db.cursor() as cursor:
             cursor.execute(consulta, (tipo_contenido))
             # NOTE: fetchall devuelve tuplas, debemos convertirlos a listas
@@ -133,7 +134,7 @@ class Servicio:
         
     def obtener_contenido_por_id(self, id_contenido) -> list:
         """
-        Retorna el contenido segun el id_contenido
+        Retorna el id_contenido, titulo y tipo de contenido del contenido segun el id_contenido
         """
         id = id_contenido
         consulta = "SELECT id_contenido, titulo, tipo_contenido FROM contenido WHERE id_contenido = %s;"
@@ -154,20 +155,24 @@ class Servicio:
         return result
     
     def comentar(self, titulo, descripcion, apodo_comentarista, id_contenido) -> list:
+        ''' 
+            Agrega un comentario a un determinado contenido en la base de datos
+        '''
         consulta = "INSERT INTO comentario(titulo, descripcion, apodo_comentarista, id_contenido) VALUES (%s,%s,%s,%s);"
-        with self.conexion_db.cursor() as cursor:
-            cursor.execute(consulta, (titulo, descripcion,apodo_comentarista,id_contenido))
-            consulta = cursor.fetchall()
-            cursor.close()
-        self.conexion_db.commit()
-        # Convertimos las tupas en json
-        result = []
-        
-        return result
+        try:
+            with self.conexion_db.cursor() as cursor:
+                cursor.execute(consulta, (titulo, descripcion,apodo_comentarista,id_contenido))
+                consulta = cursor.fetchall()
+                cursor.close()
+            self.conexion_db.commit()
+            return json.loads(json.dumps({'mensaje': "Comentario agregado."}))
+        except Exception as ex:
+            return json.loads(json.dumps({'mensaje': f"{ex}"}))
+
 
     def obtener_comentarios_por_id_contenido(self, id_contenido) -> list:
         """
-        Retorna el contenido segun el id_contenido
+        Retorna los comentarios de un determinado contenido segun id_contenido
         """
         id = id_contenido
         consulta = "SELECT id_contenido, titulo, descripcion, apodo_comentarista, id_comentario FROM comentario WHERE id_contenido = %s;"
@@ -191,7 +196,7 @@ class Servicio:
         return result
 
     def eliminar_comentario(self, id_comentario) -> list:
-        """ Elimina un comentario """
+        """ Elimina un comentario si este no tiene réplicas"""
         id = id_comentario
         consulta = "DELETE FROM comentario WHERE id_comentario = %s;" 
         try:

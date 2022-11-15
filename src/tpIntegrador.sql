@@ -413,9 +413,10 @@ VALUES (1,'Animales Salvajes','2022-02-17','.avi','video'),
 (16,'Viaje en Brasil','2014-04-23','.mp4','video'),
 (17,'Ejercicios Matematica','2022-06-09','.docx','documento'),
 (18,'Mirenla','2012-10-01','.mp3','musica'),
-(19,'Insisto','2008-02-01','.mp3','musica'),
+(19,'Insisto','2008-02-01','.wav','musica'),
 (20,'Guia preguntas','2022-05-11','.docx','documento'),
-(21,'Manual','2021-12-09','.docx','documento'); 
+(21,'Manual','2021-12-09','.docx','documento'),
+(22,'Cancion el mundial','2022-10-10','.wav','musica'); 
 
 INSERT INTO video 
 VALUES (1),(3),(8),(9),(13),(14),(16)
@@ -425,7 +426,7 @@ INSERT INTO documento
 VALUES (4),(7),(11),(12),(17),(20),(21);
 
 INSERT INTO musica 
-VALUES (2),(5),(6),(10),(15),(18),(19)
+VALUES (2),(5),(6),(10),(15),(18),(19),(22)
 ;  
  
  
